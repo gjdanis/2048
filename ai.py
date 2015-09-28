@@ -45,7 +45,7 @@ def aimove(b):
         alpha = fitness(b)
         if move:
             for _, child in Game.actions(b):
-                return max(alpha, search(child, d-1))
+                alpha = max(alpha, search(child, d-1))
         else:
             alpha = 0
             zeros = [(i,j) for i,j in itertools.product(range(4), range(4)) if b[i][j] == 0]
@@ -57,7 +57,7 @@ def aimove(b):
                 alpha += .9*search(c1, d-1, True)/len(zeros) + \
                          .1*search(c2, d-1, True)/len(zeros)
         return alpha
-    return [(action, search(child, 5)) for action ,child in Game.actions(b)]
+    return [(action, search(child, 4)) for action ,child in Game.actions(b)]
          
 def aiplay(game):
     """
