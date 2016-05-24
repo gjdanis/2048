@@ -3,11 +3,12 @@ import itertools
 
 class Game:
     def __init__(self):
-        """ Initialize a 2048 game
+        """
+        Initialize a 2048 game
 
-            NOTE: game does not know how to "play itself". Think of "Game"
-            as representing a starting board configuration with the ability
-            to advance and play 2048.
+        NOTE: game does not know how to "play itself". Think of "Game"
+        as representing a starting board configuration with the ability
+        to advance and play 2048.
         """
         b = [[0]*4 for i in range(4)]
         self.b = Game.spawn(b, 2)
@@ -24,8 +25,7 @@ class Game:
                 yield action, t
 
     def over(b):
-        """ Return whether or not a board is playable
-        """
+        """ Return whether or not a board is playable """
         def inner(b):
             for row in b:
                 for x, y in zip(row[:-1], row[1:]):
@@ -41,8 +41,10 @@ class Game:
                                 for row in b])
 
     def spawn(b, k=1):
-        """ Add k random tiles to the board.
-            Chance of 2 is 90%; chance of 4 is 10% """
+        """
+        Add k random tiles to the board.
+        Chance of 2 is 90%; chance of 4 is 10%
+        """
 
         rows, cols = list(range(4)), list(range(4))
         random.shuffle(rows)
@@ -60,7 +62,8 @@ class Game:
         raise Exception("shouldn't get here")
         
     def left(b):
-        """ Returns a left merged board
+        """
+        Returns a left merged board
 
         >>> Game.left(test)
         [[2, 8, 0, 0], [2, 8, 4, 0], [4, 0, 0, 0], [4, 4, 0, 0]]
@@ -69,7 +72,8 @@ class Game:
         return Game.merge(b)
 
     def right(b):
-        """ Returns a right merged board
+        """
+        Returns a right merged board
 
         >>> Game.right(test)
         [[0, 0, 2, 8], [0, 2, 4, 8], [0, 0, 0, 4], [0, 0, 4, 4]]
@@ -82,7 +86,8 @@ class Game:
         return [reverse(x) for x in Game.merge(t)]
 
     def up(b):
-        """ Returns an upward merged board
+        """
+        Returns an upward merged board
             NOTE: zip(*t) is transpose
             
         >>> Game.up(test) 
@@ -93,8 +98,9 @@ class Game:
         return [list(x) for x in zip(*t)]
 
     def down(b):
-        """ Returns an downward merged board
-            NOTE: zip(*t) is transpose
+        """
+        Returns an downward merged board
+        NOTE: zip(*t) is transpose
 
         >>> Game.down(test)
         [[0, 0, 0, 0], [0, 0, 0, 8], [4, 8, 0, 2], [4, 2, 4, 4]]
