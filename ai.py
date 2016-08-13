@@ -4,9 +4,15 @@ import math
 
 def aimove(b):
     """
-    Returns a list of possible moves ("left", "right", "up", "down")
-    and each corresponding fitness
+    Evaluate the utility of each of the four possible moves
+    we can make on b
+
+    Args:
+        b (list) root board to score
+
+    Returns: list
     """
+
     def fitness(b):
         """
         Returns the heuristic value of b
@@ -15,8 +21,14 @@ def aimove(b):
         Here we only evaluate one direction; we award more points if high valued tiles
         occur along this path. We penalize the board for not having
         the highest valued tile in the lower left corner
+
+        Args:
+            b (list) board to score
+
+        Returns: float
         """
-        if Game.over(b):
+
+        if not move_exists(b):
             return -float("inf")
         
         snake = []
@@ -38,45 +50,60 @@ def aimove(b):
            - if it is not the AI's turn, form all
              possible child spawns, and return their weighted average 
              as that node's evaluation
+
+        Args:
+            b (list) board to search
+            d (int) depth to serach to
+            move (bool) whether or not it's our (AI player's) move to make
+
+        Returns: float
         """
-        if d == 0 or (move and Game.over(b)):
+
+        if d == 0 or (move and not move_exists(b)):
             return fitness(b)
 
         alpha = fitness(b)
         if move:
-            for _, child in Game.actions(b):
+            for _, action in MERGE_FUNCTIONS.items():
+                child = action(b)
                 alpha = max(alpha, search(child, d-1))
         else:
             alpha = 0
-            zeros = [(i,j) for i,j in itertools.product(range(4), range(4)) if b[i][j] == 0]
+            zeros = [(i,j) for i, j in itertools.product(range(4), range(4)) if b[i][j] == 0]
             for i, j in zeros:
                 c1 = [[x for x in row] for row in b]
                 c2 = [[x for x in row] for row in b]
                 c1[i][j] = 2
                 c2[i][j] = 4
-                alpha += .9*search(c1, d-1, True)/len(zeros) + \
-                         .1*search(c2, d-1, True)/len(zeros)
+                alpha += (.9*search(c1, d-1, True)/len(zeros) +
+                          .1*search(c2, d-1, True)/len(zeros))
         return alpha
-    return [(action, search(child, 4)) for action ,child in Game.actions(b)]
+
+    results = []
+    for direction, action in MERGE_FUNCTIONS.items():
+        result = direction, search(action(b), 4)
+        results.append(result)
+    return results
          
 def aiplay(game):
     """
     Runs a game instance playing the move that determined
     by aimove.
+
+    Args:
+        game (Game) to play
+
+    Returns: void
     """
-    b = game.b
+    b = game.board
+
     while True:
-        print(Game.string(b) + "\n")
-        action = max(aimove(b), key = lambda x: x[1])[0]
-        
-        if action == "left" : b = Game.left(b)
-        if action == "right": b = Game.right(b)
-        if action == "up"   : b = Game.up(b)
-        if action == "down" : b = Game.down(b)
-        b = Game.spawn(b, 1)
-        if Game.over(b):
+        print(str(game) + '\n')
+        direction = max(aimove(game.board), key = lambda x: x[1])[0]
+
+        if not game.play_move(direction):
             m = max(x for row in b for x in row)
-            print("game over...best was %s" %m)
-            print(Game.string(b))
+            print('game over...best was {0}'.format(m))
+            print(game)
             break 
 
