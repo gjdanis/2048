@@ -7,8 +7,7 @@ def aimove(b):
     Evaluate the utility of each of the four possible moves
     we can make on b
 
-    Args:
-        b (list) root board to score
+    Args: b (list) root board to score
 
     Returns: list
     """
@@ -22,8 +21,7 @@ def aimove(b):
         occur along this path. We penalize the board for not having
         the highest valued tile in the lower left corner
 
-        Args:
-            b (list) board to score
+        Args: b (list) board to score
 
         Returns: float
         """
@@ -90,8 +88,7 @@ def aiplay(game):
     Runs a game instance playing the move that determined
     by aimove.
 
-    Args:
-        game (Game) to play
+    Args: game (Game) to play
 
     Returns: void
     """

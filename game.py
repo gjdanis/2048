@@ -5,8 +5,7 @@ def merge_right(b):
     """
     Merge the board right
 
-    Args:
-        b (list) two dimensional board to merge
+    Args: b (list) two dimensional board to merge
 
     Returns: list
 
@@ -25,8 +24,7 @@ def merge_up(b):
     Merge the board upward. Note that zip(*t) is the
     transpose of b
 
-    Args:
-        b (list) two dimensional board to merge
+    Args: b (list) two dimensional board to merge
 
     Returns: list
 
@@ -42,8 +40,7 @@ def merge_down(b):
     Merge the board downward. Note that zip(*t) is the
     transpose of b
 
-    Args:
-        b (list) two dimensional board to merge
+    Args: b (list) two dimensional board to merge
 
     Returns: list
 
@@ -58,8 +55,7 @@ def merge_left(b):
     """
     Merge the board left
 
-    Args:
-        b (list) two dimensional board to merge
+    Args: b (list) two dimensional board to merge
 
     Returns: list
     """
@@ -99,8 +95,7 @@ def move_exists(b):
     """
     Check whether or not a move exists on the board
 
-    Args:
-        b (list) two dimensional board to merge
+    Args: b (list) two dimensional board to merge
 
     Returns: list
 
@@ -143,8 +138,7 @@ class Game:
         """
         Decorator to ensure that the game is not over
 
-        Args:
-            f (callable) function to wrap with require_playing
+        Args: f (callable) function to wrap with require_playing
 
         Returns: callable
         """
@@ -159,8 +153,7 @@ class Game:
         """
         Advances the game in the given direction
 
-        Args:
-            direction (string) move to play
+        Args: direction (string) move to play
         
         Returns: bool
         """
@@ -174,8 +167,7 @@ class Game:
         Add k random tiles to the board at open positions. Chance
         of spawining a 2 is 90%; chance of 4 is 10%
 
-        Args:
-            k (int) number of tiles to add (defaults to 1 tile)
+        Args: k (int) number of tiles to add (defaults to 1 tile)
 
         Returns: bool
         """
